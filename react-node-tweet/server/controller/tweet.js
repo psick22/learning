@@ -4,7 +4,7 @@ export async function getTweets(req, res, next) {
   const username = req.query.username;
   const data = await (username
     ? tweetRepository.getAllByUsername(username)
-    : tweetRepository.getAll);
+    : tweetRepository.getAll());
 
   res.status(200).json(data);
 }

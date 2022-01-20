@@ -21,11 +21,11 @@ export async function getAll() {
   return tweets;
 }
 
-export async function getAllByUsername() {
+export async function getAllByUsername(username) {
   return tweets.filter((tweet) => tweet.username === username);
 }
 
-export async function getById() {
+export async function getById(id) {
   return tweets.find((tweet) => tweet.id === id);
 }
 
