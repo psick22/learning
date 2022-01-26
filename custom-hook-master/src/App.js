@@ -8,6 +8,7 @@ function App() {
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+
   const joke = useRandomJoke(firstName, lastName);
 
   const generateJoke = (e) => {
