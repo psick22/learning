@@ -26,6 +26,7 @@ app.get('/github', async (req, res) => {
   const { code } = req.query
   const gitHubUser = await getGitHubUser(code as string)
   let user = (await getUserByGitHubId(gitHubUser.id)) as UserDocument
+  console.log(user)
   if (!user) user = await createUser(gitHubUser.name, gitHubUser.id)
 
   const { accessToken, refreshToken } = buildTokens(user)
@@ -33,8 +34,10 @@ app.get('/github', async (req, res) => {
   res.redirect(`${config.clientUrl}/me`)
 })
 
-app.get('/refresh', async (req, res) => {
+app.post('/refresh', async (req, res) => {
   try {
+    console.log('req: ', req)
+    console.log('res: ', res)
     const current = verifyRefreshToken(req.cookies[Cookies.RefreshToken])
     const user = await getUserById(current.userId)
     if (!user) throw 'User not found'
@@ -53,7 +56,7 @@ app.post('/logout', authMiddleware, (req, res) => {
   res.end()
 })
 
-app.get('/logout-all', authMiddleware, async (req, res) => {
+app.post('/logout-all', authMiddleware, async (req, res) => {
   await increaseTokenVersion(res.locals.token.userId)
   clearTokens(res)
   res.end()
